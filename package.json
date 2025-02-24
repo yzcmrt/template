@@ -16,8 +16,10 @@
     "@tonconnect/ui-react": "^2.0.11",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
+    "dotenv": "^16.4.7",
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.4",
+    "node-telegram-bot-api": "^0.66.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^15.4.1",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/node-telegram-bot-api": "^0.64.7",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
