@@ -1,0 +1,55 @@
+.upgrade-page {
+  padding: 16px;
+}
+
+.upgrade-page h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.upgrade-section {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.upgrade-section h2 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.upgrade-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upgrade-info {
+  flex: 1;
+}
+
+.upgrade-info h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.upgrade-info p {
+  font-size: 14px;
+  color: var(--hint-color);
+  margin-bottom: 4px;
+}
+
+.upgrade-page button {
+  padding: 10px 16px;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+} 

@@ -1,0 +1,70 @@
+.task-page {
+  padding: 16px;
+}
+
+.task-page h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.task-section {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.task-section h2 {
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.task-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-card.completed {
+  opacity: 0.7;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-info h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.task-info p {
+  font-size: 14px;
+  color: var(--hint-color);
+  margin-bottom: 4px;
+}
+
+.task-reward {
+  color: var(--success-color) !important;
+  font-weight: 500;
+}
+
+.task-page button {
+  padding: 10px 16px;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.task-page button:disabled {
+  background-color: var(--success-color);
+  opacity: 0.8;
+  cursor: default;
+} 

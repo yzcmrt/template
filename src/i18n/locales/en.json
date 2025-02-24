@@ -1,0 +1,58 @@
+{
+  "app": {
+    "name": "TON Mining",
+    "loading": "Loading..."
+  },
+  "navigation": {
+    "home": "Home",
+    "upgrade": "Upgrade",
+    "task": "Tasks",
+    "referral": "Referral",
+    "wallet": "Wallet"
+  },
+  "home": {
+    "totalPoints": "Total Points",
+    "miningStatus": "Mining Status",
+    "timeRemaining": "Time Remaining",
+    "startMining": "Start Mining",
+    "claimRewards": "Claim Rewards",
+    "globalRank": "Global Rank"
+  },
+  "mining": {
+    "hourLeft": "{{ hours }} hours left",
+    "claimed": "You claimed {{ points }} points!",
+    "started": "Mining started!"
+  },
+  "upgrade": {
+    "title": "Upgrade Mining",
+    "timers": "Mining Timers",
+    "boosts": "Mining Boosts",
+    "currentLevel": "Current Level",
+    "buyUpgrade": "Buy Upgrade",
+    "autoClaim": "Auto Claim",
+    "level": "Level {{level}}"
+  },
+  "task": {
+    "title": "Tasks",
+    "daily": "Daily Tasks",
+    "weekly": "Weekly Tasks",
+    "complete": "Complete",
+    "completed": "Completed",
+    "reward": "Reward: {{points}} points"
+  },
+  "referral": {
+    "title": "Invite Friends",
+    "description": "Share your link and earn rewards when friends join!",
+    "yourLink": "Your Referral Link",
+    "copied": "Link copied!",
+    "totalReferrals": "Total Referrals: {{count}}",
+    "earnings": "Total Earnings: {{points}} points"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "connect": "Connect Wallet",
+    "balance": "Balance: {{amount}} TON",
+    "transactions": "Transactions",
+    "buyUpgrade": "Buy Upgrade"
+  }
+} 

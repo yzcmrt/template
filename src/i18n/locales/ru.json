@@ -1,0 +1,58 @@
+{
+  "app": {
+    "name": "TON Майнинг",
+    "loading": "Загрузка..."
+  },
+  "navigation": {
+    "home": "Главная",
+    "upgrade": "Улучшения",
+    "task": "Задания",
+    "referral": "Рефералы",
+    "wallet": "Кошелек"
+  },
+  "home": {
+    "totalPoints": "Всего очков",
+    "miningStatus": "Статус майнинга",
+    "timeRemaining": "Осталось времени",
+    "startMining": "Начать майнинг",
+    "claimRewards": "Получить награду",
+    "globalRank": "Глобальный рейтинг"
+  },
+  "mining": {
+    "hourLeft": "Осталось {{ hours }} часов",
+    "claimed": "Вы получили {{ points }} очков!",
+    "started": "Майнинг начат!"
+  },
+  "upgrade": {
+    "title": "Улучшить майнинг",
+    "timers": "Таймеры майнинга",
+    "boosts": "Бусты майнинга",
+    "currentLevel": "Текущий уровень",
+    "buyUpgrade": "Купить улучшение",
+    "autoClaim": "Авто-сбор",
+    "level": "Уровень {{level}}"
+  },
+  "task": {
+    "title": "Задания",
+    "daily": "Ежедневные задания",
+    "weekly": "Еженедельные задания",
+    "complete": "Выполнить",
+    "completed": "Выполнено",
+    "reward": "Награда: {{points}} очков"
+  },
+  "referral": {
+    "title": "Пригласите друзей",
+    "description": "Поделитесь своей ссылкой и получайте награды, когда друзья присоединяются!",
+    "yourLink": "Ваша реферальная ссылка",
+    "copied": "Ссылка скопирована!",
+    "totalReferrals": "Всего рефералов: {{count}}",
+    "earnings": "Всего заработано: {{points}} очков"
+  },
+  "wallet": {
+    "title": "Кошелек",
+    "connect": "Подключить кошелек",
+    "balance": "Баланс: {{amount}} TON",
+    "transactions": "Транзакции",
+    "buyUpgrade": "Купить улучшение"
+  }
+} 

@@ -1,0 +1,98 @@
+.referral-page {
+  padding: 16px;
+}
+
+.referral-page h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.referral-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.referral-description {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.referral-link-container {
+  margin-bottom: 20px;
+}
+
+.referral-link-label {
+  font-size: 14px;
+  color: var(--hint-color);
+  margin-bottom: 8px;
+}
+
+.referral-link-box {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.referral-link {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.referral-link-box button {
+  padding: 12px 16px;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.referral-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.referral-list {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.referral-list h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.referral-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.referral-user h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.referral-user p {
+  font-size: 12px;
+  color: var(--hint-color);
+}
+
+.referral-points {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--success-color);
+} 
