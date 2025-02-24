@@ -1,4 +1,6 @@
-import { TonConnectUI } from '@tonconnect/ui-react'
+// TonConnectUI importunu kaldırıp açıklayıcı bir yorum ekleyelim
+// TonConnectUI doğrudan import edilmiyor, bunun yerine global değişken üzerinden erişilecek
+// TonConnectUIProvider App.tsx içinde kullanılıyor, bu servis sadece global değişkenlere erişim sağlıyor
 
 // Tip tanımları
 declare global {
@@ -8,25 +10,19 @@ declare global {
     _tonModeActive?: boolean;
     __TON_MODE_ACTIVE?: boolean;
     __TON_WALLET_INITIALIZED?: boolean;
+    // TonConnect global değişkenleri
+    __TON_CONNECTION_STATUS__?: string;
+    __TON_WALLET_ADDRESS__?: string;
+    __TON_CONNECT_UI_OPEN_MODAL__?: () => void;
+    __TON_CONNECT_UI_SEND_TRANSACTION__?: (txn: any) => Promise<any>;
   }
 }
 
 // TON cüzdan adresi
 export const WALLET_ADDRESS = 'UQCo-_sf6z8mlUdspm1LG6CoZj85QDuiuig7nXQTD0DZmXwF'
 
-// TonConnect için manifest
-const manifestUrl = 'https://ton-mining-app.vercel.app/tonconnect-manifest.json'
-
-// Ton Config ayarları
-const tonConfig = {
-  manifestUrl,
-  // TonConnect DOM elementi JavaScript ile oluşturulduğu için kullanılacak
-  buttonRootId: 'ton-connect-button',
-  actionsConfiguration: {
-    // TWA uygulamasına dönüş URL'si
-    twaReturnUrl: 'https://t.me/ton_mining_bot' as `${string}://${string}`
-  }
-}
+// TonConnect için manifest - React tarafında kullanılacak
+export const manifestUrl = 'https://ton-mining-app.vercel.app/tonconnect-manifest.json'
 
 // Son işlemler geçmişi
 let transactionHistory: PaymentTransaction[] = []
@@ -56,10 +52,6 @@ if (typeof window !== 'undefined') {
     console.warn('Ethereum detection error:', error)
   }
 }
-
-// TonConnectUI'yi React bileşeni ile yönetiyoruz
-// Bu nedenle burada yalnızca yardımcı fonksiyonlar olacak
-// ve `window.Telegram?.WebApp` üzerinden Telegram ile etkileşim sağlanacak
 
 // Global değişkenden TonConnect özelliklerine erişim sağlayacağız
 // App.tsx içinde TonConnectUIProvider zaten bu değişkenleri sağlıyor
@@ -160,6 +152,12 @@ export async function makePayment(amount: number, productInfo?: PaymentTransacti
     // Cüzdan bağlantısı için biraz bekle
     await new Promise(resolve => setTimeout(resolve, 1000))
     
+    // İşlem başlatma log'u
+    logTonTransaction({
+      type: 'connect_wallet_attempt',
+      timestamp: Date.now()
+    });
+    
     // Hala bağlantı yoksa işlemi iptal et
     if (!isWalletConnected()) {
       return {
@@ -172,6 +170,16 @@ export async function makePayment(amount: number, productInfo?: PaymentTransacti
   // Eğer ürün bilgisi varsa, ödemeyi onaylamasını iste
   if (productInfo) {
     const isConfirmed = await confirmPayment(amount, productInfo)
+    
+    // Onay log'u
+    logTonTransaction({
+      type: 'payment_confirmation',
+      confirmed: isConfirmed,
+      amount,
+      productInfo,
+      timestamp: Date.now()
+    });
+    
     if (!isConfirmed) {
       return {
         success: false,
@@ -208,6 +216,14 @@ export async function makePayment(amount: number, productInfo?: PaymentTransacti
       ]
     }
     
+    // İşlem başlatma log'u
+    logTonTransaction({
+      type: 'transaction_started',
+      transactionId,
+      txn,
+      timestamp: Date.now()
+    });
+    
     // @ts-ignore - TC-UI-R'nin sendTransaction fonksiyonunu kullan
     if (typeof window === 'undefined' || !window.__TON_CONNECT_UI_SEND_TRANSACTION) {
       console.error('TonConnectUI is not initialized');
@@ -217,6 +233,14 @@ export async function makePayment(amount: number, productInfo?: PaymentTransacti
     
     // @ts-ignore
     const result = await window.__TON_CONNECT_UI_SEND_TRANSACTION(txn);
+    
+    // İşlem sonuç log'u
+    logTonTransaction({
+      type: 'transaction_result',
+      transactionId,
+      result,
+      timestamp: Date.now()
+    });
     
     // İşlemi güncelle
     if (result) {
@@ -230,6 +254,14 @@ export async function makePayment(amount: number, productInfo?: PaymentTransacti
     }
     
   } catch (error) {
+    // Hata log'u
+    logTonTransaction({
+      type: 'transaction_error',
+      transactionId,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: Date.now()
+    });
+    
     console.error('Payment error:', error);
     updateTransaction(transactionId, 'failed', null, error instanceof Error ? error.message : 'Unknown error');
     return { success: false, message: error instanceof Error ? error.message : 'Payment failed' };
@@ -308,9 +340,10 @@ export async function checkPaymentStatus(transactionId: string): Promise<'comple
 }
 
 // TON işlemleri için yardımcı fonksiyonlar
-function logTonTransaction(txInfo: any) {
+// Bu fonksiyon TON işlem loglarını konsola yazdırır
+export function logTonTransaction(txInfo: any) {
   console.log('TON Transaction:', txInfo);
-  // Bu fonksiyon ileride TON işlem logları için kullanılabilir
+  return txInfo; // Daha sonra işlem detayları için kullanılabilir
 }
 
 // Ton işlem modunu etkinleştir (Global değişken ile)
@@ -333,6 +366,10 @@ export function initializeTonWallet() {
   try {
     // @ts-ignore - Global değişkenleri izlemeye başla
     window.__TON_WALLET_INITIALIZED = true;
+    
+    // İlk işlemi logla
+    logTonTransaction({type: 'wallet_init', timestamp: Date.now()});
+    
     console.log('TON wallet listeners initialized');
     return true;
   } catch (error) {
@@ -340,3 +377,7 @@ export function initializeTonWallet() {
     return false;
   }
 }
+
+// TonConnectUI'yi React bileşeni ile yönetiyoruz
+// Bu nedenle burada yalnızca yardımcı fonksiyonlar olacak
+// ve `window.Telegram?.WebApp` üzerinden Telegram ile etkileşim sağlanacak

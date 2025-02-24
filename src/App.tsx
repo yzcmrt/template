@@ -23,7 +23,8 @@ import { initializeTonWallet } from './services/ton-service'
 const TON_MANIFEST_URL = 'https://ton-mining-app.vercel.app/tonconnect-manifest.json';
 
 function App() {
-  const { t } = useTranslation()
+  // useTranslation hook'u i18n için gerekli
+  useTranslation(); // 't' değişkenini kullanmazsak direkt hook çağırabiliriz
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
