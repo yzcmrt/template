@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "bot": "ts-node src/bot-script.ts"
   },
   "dependencies": {
     "@telegram-apps/sdk": "^3.5.0",
@@ -34,6 +35,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0"

@@ -1,168 +1,192 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import '../i18n/i18n'
 import './HomePage.css'
+import MiningButton from '../components/MiningButton'
+import MiningTimer from '../components/MiningTimer'
+import UserStats from '../components/UserStats'
 
-const HomePage = () => {
+interface TelegramUser {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+}
+
+interface UserData {
+  telegramId: number;
+  miningPower: number;
+  balance: number;
+  totalEarned: number;
+  referralCode: string;
+  referrals: number[];
+}
+
+function HomePage() {
   const { t } = useTranslation()
-  const [userPoints, setUserPoints] = useState(0)
+  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null)
+  const [userData, setUserData] = useState<UserData | null>(null)
   const [miningActive, setMiningActive] = useState(false)
-  const [canClaim, setCanClaim] = useState(false)
-  const [timerDuration, setTimerDuration] = useState(16) // Saat cinsinden
-  const [miningBoost, setMiningBoost] = useState(1) // Çarpan
-  const [timeLeft, setTimeLeft] = useState(0)
-
+  
+  // Telegram Mini App verisini al
   useEffect(() => {
-    // Kullanıcı verilerini yükle
-    const loadUserData = async () => {
+    const getUserData = async () => {
       try {
-        // Burada backend'den veri çekilecek
-        // Şimdilik sabit veriler kullanalım
-        setUserPoints(1250)
-        setTimerDuration(16)
-        setMiningBoost(1)
-      } catch (error) {
-        console.error("Failed to load user data", error)
-      }
-    }
-    
-    loadUserData()
-  }, [])
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setInterval> | null = null
-    
-    if (miningActive) {
-      setTimeLeft(timerDuration * 3600) // Saniye cinsine çevir
-      
-      timer = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            clearInterval(timer as ReturnType<typeof setInterval>)
-            setCanClaim(true)
-            setMiningActive(false)
-            return 0
+        // Telegram WebApp API kontrol
+        if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+          const webApp = window.Telegram.WebApp;
+          
+          // Kullanıcı bilgilerini al
+          if (webApp.initDataUnsafe?.user) {
+            const user = webApp.initDataUnsafe.user;
+            
+            setTelegramUser({
+              id: user.id || 0,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              username: user.username,
+              language_code: user.language_code
+            });
+            
+            // Kullanıcı verisini API'den al (örnek mockup veri)
+            // Gerçek uygulamada burada API isteği yapılmalı
+            setUserData({
+              telegramId: user.id || 0,
+              miningPower: 1.0,
+              balance: 0.05,
+              totalEarned: 0.15,
+              referralCode: `REF${user.id || 0}`,
+              referrals: []
+            });
+          } else {
+            // Test verileri
+            setTelegramUser({
+              id: 123456789,
+              first_name: "Test",
+              last_name: "User",
+              username: "testuser",
+              language_code: "tr"
+            });
+            
+            setUserData({
+              telegramId: 123456789,
+              miningPower: 1.0,
+              balance: 0.05,
+              totalEarned: 0.15,
+              referralCode: "REF123456789",
+              referrals: []
+            });
           }
-          return prev - 1
-        })
-      }, 1000)
-    }
+        } else {
+          // Telegram dışında test için
+          setTelegramUser({
+            id: 123456789,
+            first_name: "Test",
+            last_name: "User",
+            username: "testuser",
+            language_code: "tr"
+          });
+          
+          setUserData({
+            telegramId: 123456789,
+            miningPower: 1.0,
+            balance: 0.05,
+            totalEarned: 0.15,
+            referralCode: "REF123456789",
+            referrals: []
+          });
+        }
+      } catch (error) {
+        console.error('Telegram kullanıcı verisi alınamadı:', error);
+        
+        // Hata durumunda test verileri
+        setTelegramUser({
+          id: 123456789,
+          first_name: "Test",
+          last_name: "User",
+          username: "testuser",
+          language_code: "tr"
+        });
+        
+        setUserData({
+          telegramId: 123456789,
+          miningPower: 1.0,
+          balance: 0.05,
+          totalEarned: 0.15,
+          referralCode: "REF123456789",
+          referrals: []
+        });
+      }
+    };
     
-    return () => {
-      if (timer) clearInterval(timer)
-    }
-  }, [miningActive, timerDuration])
-
-  const handleStartMining = () => {
-    setMiningActive(true)
-    setCanClaim(false)
-    // Burada mining başladı bilgisi backend'e gönderilecek
-  }
-
-  const handleClaimRewards = () => {
-    // Mining puanlarını hesapla
-    const basePoints = 100 // Temel puan
-    const boostedPoints = Math.floor(basePoints * miningBoost)
+    getUserData();
+  }, []);
+  
+  // Mining işlemini başlat
+  const startMining = () => {
+    setMiningActive(true);
     
-    setUserPoints(prev => prev + boostedPoints)
-    setMiningActive(false)
-    setCanClaim(false)
-    
-    // Burada claim işlemi backend'e gönderilecek
-  }
-
-  // Kalan süreyi saat, dakika, saniye formatına çevir
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    const secs = seconds % 60
-    
-    return {
-      hours,
-      minutes,
-      seconds: secs
-    }
-  }
-
-  const formattedTime = formatTime(timeLeft)
-
+    // 30 saniye sonra mining tamamlanacak
+    setTimeout(() => {
+      setMiningActive(false);
+      
+      // Mining sonucunda kazanılacak miktar
+      const miningReward = 0.01 * (userData?.miningPower || 1);
+      
+      // Kullanıcı verilerini güncelle
+      if (userData) {
+        setUserData({
+          ...userData,
+          balance: userData.balance + miningReward,
+          totalEarned: userData.totalEarned + miningReward
+        });
+      }
+      
+      // Gerçek uygulamada burada API isteği yapılmalı
+      console.log(`Mining tamamlandı: ${miningReward} TON kazanıldı.`);
+    }, 30000);
+  };
+  
   return (
     <div className="home-page">
-      <h1>{t('app.name')}</h1>
+      <header className="home-header">
+        <h1>{t('home.title')}</h1>
+        <p className="welcome-message">
+          {telegramUser 
+            ? `Hoş geldin, ${telegramUser.first_name || 'Kullanıcı'}`
+            : 'TON Mining\'e Hoş Geldiniz!'}
+        </p>
+      </header>
       
-      <div className="stats-card">
-        <div className="stat-item">
-          <span className="stat-label">{t('home.totalPoints')}</span>
-          <span className="stat-value">{userPoints}</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">{t('home.globalRank')}</span>
-          <span className="stat-value">#1253</span>
-        </div>
-      </div>
+      {userData && (
+        <UserStats
+          miningPower={userData.miningPower}
+          balance={userData.balance}
+          totalEarned={userData.totalEarned}
+          referralCount={userData.referrals.length}
+        />
+      )}
       
-      <div className="mining-card">
-        <h2>{t('home.miningStatus')}</h2>
-        
+      <div className="mining-section">
         {miningActive ? (
-          <div className="mining-active">
-            <div className="mining-animation"></div>
-            <p>Mining in progress...</p>
-            <div className="timer-display">
-              <div className="time-section">
-                <span className="time-value">{formattedTime.hours}</span>
-                <span className="time-label">Hours</span>
-              </div>
-              <span className="time-separator">:</span>
-              <div className="time-section">
-                <span className="time-value">{formattedTime.minutes.toString().padStart(2, '0')}</span>
-                <span className="time-label">Minutes</span>
-              </div>
-              <span className="time-separator">:</span>
-              <div className="time-section">
-                <span className="time-value">{formattedTime.seconds.toString().padStart(2, '0')}</span>
-                <span className="time-label">Seconds</span>
-              </div>
-            </div>
-            <div className="mining-progress">
-              <div 
-                className="mining-progress-bar" 
-                style={{ width: `${(1 - timeLeft / (timerDuration * 3600)) * 100}%` }}
-              ></div>
-            </div>
-          </div>
+          <MiningTimer 
+            seconds={30} 
+            onComplete={() => console.log('Mining tamamlandı')}
+          />
         ) : (
-          <div className="mining-inactive">
-            {canClaim ? (
-              <p className="mining-ready">{t('home.readyToClaim')}</p>
-            ) : (
-              <p>{t('mining.hourLeft', { hours: timerDuration })}</p>
-            )}
-          </div>
+          <MiningButton onClick={startMining} />
         )}
-        
-        <div className="mining-actions">
-          {canClaim ? (
-            <button 
-              onClick={handleClaimRewards} 
-              className="claim-button"
-            >
-              {t('home.claimRewards')}
-            </button>
-          ) : (
-            <button 
-              onClick={handleStartMining} 
-              disabled={miningActive}
-              className="start-button"
-            >
-              {t('home.startMining')}
-            </button>
-          )}
-        </div>
       </div>
       
-      <div className="boost-info">
-        <p>Current Boost: {miningBoost}x</p>
-        {miningBoost > 1 && <p>Your mining is {miningBoost}x faster!</p>}
+      <div className="mining-info">
+        <h2>{t('home.how_it_works')}</h2>
+        <p>{t('home.mining_info')}</p>
+        <ul>
+          <li>{t('home.mining_info_1')}</li>
+          <li>{t('home.mining_info_2')}</li>
+          <li>{t('home.mining_info_3')}</li>
+        </ul>
       </div>
     </div>
   )

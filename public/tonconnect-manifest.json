@@ -1,5 +1,9 @@
 {
-  "url": "https://ton-mining-app.vercel.app",
+  "url": "https://template-orpin-delta.vercel.app",
   "name": "TON Mining App",
-  "iconUrl": "https://ton-mining-app.vercel.app/vite.svg"
+  "iconUrl": "https://template-orpin-delta.vercel.app/vite.svg",
+  "termsOfUseUrl": "https://template-orpin-delta.vercel.app/terms",
+  "privacyPolicyUrl": "https://template-orpin-delta.vercel.app/privacy",
+  "validUntil": 1725056400,
+  "telegram_bot_username": "ton_mining_bot"
 } 

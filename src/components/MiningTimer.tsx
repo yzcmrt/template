@@ -1,92 +1,65 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import './MiningTimer.css'
 
-interface MiningTimerProps {
-  initialHours: number;
+export interface MiningTimerProps {
+  seconds?: number;
   onComplete: () => void;
-  isActive: boolean;
 }
 
-const MiningTimer: React.FC<MiningTimerProps> = ({ initialHours, onComplete, isActive }) => {
-  useTranslation(); // t değişkenini kullanmıyoruz şimdilik
-  const [timeLeft, setTimeLeft] = useState(initialHours * 3600) // saniye cinsinden
-  const [isRunning, setIsRunning] = useState(false)
+const MiningTimer = ({ seconds = 30, onComplete }: MiningTimerProps) => {
+  const [timeLeft, setTimeLeft] = useState(seconds);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    setIsRunning(isActive)
-  }, [isActive])
+    // Sayaç fonksiyonu
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          onComplete();
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
 
-  useEffect(() => {
-    if (initialHours > 0) {
-      setTimeLeft(initialHours * 3600)
-    }
-  }, [initialHours])
+    // Temizleme fonksiyonu
+    return () => clearInterval(timer);
+  }, [onComplete]);
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setInterval> | null = null
-    
-    if (isRunning) {
-      timer = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            clearInterval(timer as ReturnType<typeof setInterval>)
-            onComplete()
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
-    } else if (timer) {
-      clearInterval(timer)
-    }
-    
-    return () => {
-      if (timer) clearInterval(timer)
-    }
-  }, [isRunning, onComplete])
-
-  // Kalan süreyi formatlama
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    const secs = seconds % 60
-    
-    return {
-      hours,
-      minutes,
-      seconds: secs
-    }
-  }
-
-  const formattedTime = formatTime(timeLeft)
+  // Yüzde cinsinden ilerleme hesapla
+  const progress = ((seconds - timeLeft) / seconds) * 100;
 
   return (
     <div className="mining-timer">
+      <div className="mining-animation">
+        <div className="mining-icon-animated">⛏️</div>
+      </div>
+      
       <div className="timer-display">
-        <span className="time-section">
-          <span className="time-value">{formattedTime.hours}</span>
-          <span className="time-label">Saat</span>
-        </span>
-        <span className="time-separator">:</span>
-        <span className="time-section">
-          <span className="time-value">{formattedTime.minutes.toString().padStart(2, '0')}</span>
-          <span className="time-label">Dakika</span>
-        </span>
-        <span className="time-separator">:</span>
-        <span className="time-section">
-          <span className="time-value">{formattedTime.seconds.toString().padStart(2, '0')}</span>
-          <span className="time-label">Saniye</span>
-        </span>
+        <div className="timer-text">
+          {timeLeft > 0 ? (
+            <>
+              <span className="timer-label">{t('mining.time_left')}</span>
+              <span className="timer-value">{timeLeft} {t('mining.seconds')}</span>
+            </>
+          ) : (
+            <span className="timer-complete">{t('mining.completed')}</span>
+          )}
+        </div>
       </div>
-      <div className="mining-progress">
+
+      <div className="progress-bar-container">
         <div 
-          className="mining-progress-bar" 
-          style={{ width: `${(1 - timeLeft / (initialHours * 3600)) * 100}%` }}
-        ></div>
+          className="progress-bar" 
+          style={{ width: `${progress}%` }}
+        />
       </div>
+      
+      <p className="mining-status">{t('mining.in_progress')}</p>
     </div>
-  )
-}
+  );
+};
 
 export default MiningTimer 

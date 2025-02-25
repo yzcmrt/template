@@ -1,0 +1,53 @@
+{
+  "app": {
+    "name": "TON Mining"
+  },
+  "home": {
+    "title": "TON Mining",
+    "how_it_works": "Nasıl Çalışır?",
+    "mining_info": "TON Mining ile her gün madencilik yaparak kripto para kazanabilirsiniz.",
+    "mining_info_1": "Madencilik butonuna tıklayın ve bekleyin",
+    "mining_info_2": "Her 5 dakikada bir ödül kazanın",
+    "mining_info_3": "Arkadaşlarınızı davet ederek mining gücünüzü artırın"
+  },
+  "mining": {
+    "start_mining": "Madencilik Başlat",
+    "description": "Mining gücünüzle orantılı TON kazanmak için tıklayın",
+    "time_left": "Kalan Süre",
+    "seconds": "saniye",
+    "completed": "Tamamlandı!",
+    "in_progress": "Madencilik işlemi devam ediyor..."
+  },
+  "stats": {
+    "mining_power": "Mining Gücü",
+    "balance": "Bakiye",
+    "total_earned": "Toplam Kazanç",
+    "referrals": "Referanslar"
+  },
+  "referral": {
+    "title": "Arkadaşlarını Davet Et",
+    "description": "Arkadaşlarınızı davet ederek %5 komisyon kazanın!",
+    "your_link": "Referans Linkiniz",
+    "copy": "Kopyala",
+    "share": "Paylaş",
+    "stats": "Referans İstatistikleri",
+    "active_referrals": "Aktif Referanslar",
+    "total_earned": "Toplam Kazanç"
+  },
+  "wallet": {
+    "title": "Cüzdan",
+    "balance": "Bakiye",
+    "withdraw": "Çek",
+    "connect_wallet": "Cüzdanı Bağla",
+    "history": "İşlem Geçmişi",
+    "no_transactions": "Henüz işlem yok"
+  },
+  "upgrade": {
+    "title": "Yükselt",
+    "current_level": "Mevcut Seviye",
+    "next_level": "Sonraki Seviye",
+    "mining_power": "Mining Gücü",
+    "upgrade_cost": "Yükseltme Maliyeti",
+    "upgrade_button": "Yükselt"
+  }
+} 
