@@ -10,19 +10,25 @@ declare global {
     _tonModeActive?: boolean;
     __TON_MODE_ACTIVE?: boolean;
     __TON_WALLET_INITIALIZED?: boolean;
-    // TonConnect global değişkenleri
+    // TonConnect global değişkenleri (index.html ile uyumlu isimler)
     __TON_CONNECTION_STATUS__?: string;
-    __TON_WALLET_ADDRESS__?: string;
-    __TON_CONNECT_UI_OPEN_MODAL__?: () => void;
-    __TON_CONNECT_UI_SEND_TRANSACTION__?: (txn: any) => Promise<any>;
+    __TON_WALLET_ADDRESS?: string;
+    __TON_CONNECT_UI_OPEN_MODAL?: () => void;
+    __TON_CONNECT_UI_SEND_TRANSACTION?: (txn: any) => Promise<any>;
   }
 }
 
-// TON cüzdan adresi
-export const WALLET_ADDRESS = 'UQCo-_sf6z8mlUdspm1LG6CoZj85QDuiuig7nXQTD0DZmXwF'
+// TON cüzdan adresi (Vite env üzerinden alınır, yoksa varsayılan kullanılır)
+const envWalletAddress = typeof import.meta !== 'undefined'
+  ? (import.meta as any).env?.VITE_TON_WALLET_ADDRESS
+  : undefined;
+export const WALLET_ADDRESS = envWalletAddress || 'UQCo-_sf6z8mlUdspm1LG6CoZj85QDuiuig7nXQTD0DZmXwF'
 
-// TonConnect için manifest - React tarafında kullanılacak
-export const manifestUrl = 'https://ton-mining-app.vercel.app/tonconnect-manifest.json'
+// TonConnect manifest URL'i (Vite env üzerinden alınır, yoksa varsayılan kullanılır)
+const envManifestUrl = typeof import.meta !== 'undefined'
+  ? (import.meta as any).env?.VITE_TON_MANIFEST_URL
+  : undefined;
+export const manifestUrl = envManifestUrl || 'https://ton-mining-app.vercel.app/tonconnect-manifest.json'
 
 // Son işlemler geçmişi
 let transactionHistory: PaymentTransaction[] = []

@@ -19,8 +19,8 @@ import LoadingScreen from './components/LoadingScreen'
 // Servisler
 import { initializeTonWallet } from './services/ton-service'
 
-// TON Wallet URL'i
-const TON_MANIFEST_URL = 'https://ton-mining-app.vercel.app/tonconnect-manifest.json';
+// TON Wallet manifest URL'i (Vite env üzerinden)
+const TON_MANIFEST_URL = (import.meta as any).env?.VITE_TON_MANIFEST_URL || 'https://ton-mining-app.vercel.app/tonconnect-manifest.json';
 
 function App() {
   // useTranslation hook'u i18n için gerekli

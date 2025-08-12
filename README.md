@@ -1,3 +1,22 @@
+# Çevre Değişkenleri
+
+Bu proje hem Node bot süreci hem de Vite tabanlı istemci içerir. Güvenlik için `.env` dosyası repoya eklenmez.
+
+1) Sunucu (Node) tarafı değişkenleri:
+
+```
+TELEGRAM_BOT_TOKEN=...
+APP_URL=https://your-deploy-url
+```
+
+2) İstemci (Vite) tarafı değişkenleri (sadece `VITE_` ile başlayanlar bundle edilir):
+
+```
+VITE_TON_WALLET_ADDRESS=...
+VITE_TON_MANIFEST_URL=https://your-site/tonconnect-manifest.json
+```
+
+Örnek için `.env` dosyasındaki açıklamalara bakın ve kendi ortamınızda doldurun.
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
