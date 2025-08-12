@@ -12,6 +12,21 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Bileşenin kullandığı sınıf adı */
+.mining-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  background-color: rgba(0, 136, 204, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
 .mining-animation {
   margin-bottom: 20px;
   width: 80px;
@@ -19,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0088cc;
+  background-color: var(--primary-color);
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
   animation: pulse 1.5s infinite ease-in-out;
@@ -41,6 +56,13 @@
 }
 
 .mining-icon {
+  font-size: 32px;
+  color: white;
+  animation: swing 1s infinite ease-in-out alternate;
+}
+
+/* Bileşenin kullandığı ikon sınıfı */
+.mining-icon-animated {
   font-size: 32px;
   color: white;
   animation: swing 1s infinite ease-in-out alternate;
@@ -69,7 +91,13 @@
 .timer-value {
   font-size: 24px;
   font-weight: 600;
-  color: #0088cc;
+  color: var(--primary-color);
+}
+
+.timer-complete {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--success-color);
 }
 
 .progress-container {
@@ -81,9 +109,19 @@
   margin-bottom: 15px;
 }
 
+/* Bileşenin kullandığı ilerleme çubuğu sarmalayıcısı */
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
 .progress-bar {
   height: 100%;
-  background-color: #0088cc;
+  background-color: var(--primary-color);
   border-radius: 4px;
   transition: width 1s linear;
 }
@@ -96,7 +134,8 @@
 
 /* Mobil cihazlar için uyarlama */
 @media (max-width: 480px) {
-  .mining-timer-container {
+  .mining-timer-container,
+  .mining-timer {
     padding: 15px;
   }
   
