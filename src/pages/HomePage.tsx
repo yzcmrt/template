@@ -39,7 +39,7 @@ function HomePage() {
           
           // Kullanıcı bilgilerini al
           if (webApp.initDataUnsafe?.user) {
-            const user = webApp.initDataUnsafe.user;
+            const user = webApp.initDataUnsafe.user as any;
             
             setTelegramUser({
               id: user.id || 0,
